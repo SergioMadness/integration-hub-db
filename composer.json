@@ -24,7 +24,7 @@
     "classmap": [
     ],
     "psr-4": {
-      "professionaweb\\IntegrationHub\\IntegrationHubDB": "src/"
+      "professionalweb\\IntegrationHub\\IntegrationHubDB\\": "src/"
     }
   },
   "autoload-dev": {
