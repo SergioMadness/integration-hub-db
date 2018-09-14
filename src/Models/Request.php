@@ -166,4 +166,14 @@ class Request extends UUIDModel implements IModel, EventData
 
         return $this;
     }
+
+    /**
+     * Get event id
+     *
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 }
