@@ -140,6 +140,8 @@ class Request extends UUIDModel implements IModel, EventData
         $processingInfo['current_step'] = $stepId;
 
         $this->processing_info = $processingInfo;
+
+        return $this;
     }
 
 

@@ -1,8 +1,9 @@
 <?php namespace professionalweb\IntegrationHub\IntegrationHubDB\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use professionalweb\IntegrationHub\IntegrationHubDB\Interfaces\Model;
 use professionalweb\IntegrationHub\IntegrationHubDB\Abstractions\UUIDModel;
-use professionalweb\IntegrationHub\IntegrationHubDB\Interfaces\Models\Flow as IFlow;
+use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Flow as IFlow;
 
 /**
  * Process flow model
@@ -17,7 +18,7 @@ use professionalweb\IntegrationHub\IntegrationHubDB\Interfaces\Models\Flow as IF
  * @property string  $updated_at
  * @property string  $deleted_at
  */
-class Flow extends UUIDModel implements IFlow
+class Flow extends UUIDModel implements IFlow, Model
 {
     use SoftDeletes;
 
@@ -27,6 +28,13 @@ class Flow extends UUIDModel implements IFlow
 
     protected $casts = [
         'data' => 'array',
+    ];
+
+    protected $fillable = [
+        'name',
+        'is_default',
+        'is_active',
+        'data',
     ];
 
     /**

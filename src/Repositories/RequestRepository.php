@@ -7,6 +7,11 @@ use professionalweb\IntegrationHub\IntegrationHubDB\Interfaces\Repositories\Requ
 /**
  * Repository of requests
  * @package professionalweb\IntegrationHub\Supervisor\Repositories
+ *
+ * @method save(Request $model): bool
+ * @method model($id): ?Request
+ * @method remove(Request $model): bool
+ * @method fill(Request $model, array $attributes = []): Request
  */
 class RequestRepository extends BaseRepository implements IRequestRepository
 {
@@ -20,7 +25,7 @@ class RequestRepository extends BaseRepository implements IRequestRepository
      *
      * @param array $attributes
      *
-     * @return Model
+     * @return Request
      */
     public function create(array $attributes = []): Model
     {

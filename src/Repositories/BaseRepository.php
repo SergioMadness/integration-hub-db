@@ -79,7 +79,7 @@ abstract class BaseRepository implements Repository
     {
         $class = $this->getModelClass();
 
-        return $class::find($id);
+        return $class::query()->find($id);
     }
 
     /**

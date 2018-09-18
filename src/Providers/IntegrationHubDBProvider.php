@@ -10,10 +10,19 @@ use professionalweb\IntegrationHub\IntegrationHubDB\Interfaces\Repositories\Proc
 
 class IntegrationHubDBProvider extends ServiceProvider
 {
+    public function boot(): void
+    {
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+    }
+
     public function register(): void
     {
         $this->app->singleton(IRequestRepository::class, RequestRepository::class);
-        $this->app->singleton(IFlowRepository::class, FlowRepository::class);
-        $this->app->singleton(IProcessOptionsRepository::class, ProcessOptionsRepository::class);
+        $this->app->singleton(IFlowRepository::class, function () {
+            return new FlowRepository(collect(config('flow-collection')));
+        });
+        $this->app->singleton(IProcessOptionsRepository::class, function () {
+            return new ProcessOptionsRepository(collect(config('process-options-collection')));
+        });
     }
 }
