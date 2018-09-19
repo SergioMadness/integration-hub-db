@@ -1,7 +1,9 @@
 <?php namespace professionalweb\IntegrationHub\IntegrationHubDB\Repositories;
 
+use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Collection;
 use professionalweb\IntegrationHub\IntegrationHubDB\Models\Flow;
+use professionalweb\IntegrationHub\IntegrationHubDB\Interfaces\Model;
 use professionalweb\IntegrationHub\IntegrationHubDB\Interfaces\Repositories\FlowRepository as IFlowRepository;
 
 /**
@@ -16,11 +18,6 @@ use professionalweb\IntegrationHub\IntegrationHubDB\Interfaces\Repositories\Flow
  */
 class FlowRepository extends BaseRepository implements IFlowRepository
 {
-    /**
-     * @var Flow
-     */
-    private $defaultFlow;
-
     /**
      * @var Collection
      */
@@ -48,6 +45,22 @@ class FlowRepository extends BaseRepository implements IFlowRepository
         }
 
         return $defaultFlow;
+    }
+
+    /**
+     * @param int|string $id
+     *
+     * @return null|Model
+     */
+    public function model($id): ?Model
+    {
+        $result = Uuid::isValid($id) ? parent::model($id) : null;
+
+        if ($result === null) {
+            $result = $this->getStaticCollection()->firstWhere('id', $id);
+        }
+
+        return $result;
     }
 
     /**

@@ -1,7 +1,7 @@
 <?php namespace professionalweb\IntegrationHub\IntegrationHubDB\Models;
 
-use professionalweb\IntegrationHub\IntegrationHub\Models\Application;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use professionalweb\IntegrationHub\IntegrationHub\Models\Application;
 use professionalweb\IntegrationHub\IntegrationHubDB\Abstractions\UUIDModel;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\EventData;
 use professionalweb\IntegrationHub\IntegrationHubDB\Interfaces\Model as IModel;
@@ -111,7 +111,7 @@ class Request extends UUIDModel implements IModel, EventData
      */
     public function getCurrentFlow(): string
     {
-        return $this->processing_info['current_step'] ?: '';
+        return $this->processing_info['current_flow'] ?: '';
     }
 
     /**
@@ -121,7 +121,7 @@ class Request extends UUIDModel implements IModel, EventData
      */
     public function getCurrentStep(): string
     {
-        return $this->processing_info['current_flow'] ?: '';
+        return $this->processing_info['current_step'] ?: '';
     }
 
     /**
@@ -144,6 +144,32 @@ class Request extends UUIDModel implements IModel, EventData
         return $this;
     }
 
+    /**
+     * Set process response
+     *
+     * @param string $processId
+     * @param bool   $processSucceed
+     * @param mixed  $processResponse
+     *
+     * @return Request
+     */
+    public function setProcessResponse(string $processId, $processResponse, bool $processSucceed = true): self
+    {
+        $processingInfo = $this->processing_info;
+
+        if (!isset($processingInfo['process_response'])) {
+            $processingInfo['process_response'] = [];
+        }
+        $processingInfo['process_response'][$processId] = [
+            'processId' => $processId,
+            'isError'   => !$processSucceed,
+            'response'  => $processResponse,
+        ];
+
+        $this->processing_info = $processingInfo;
+
+        return $this;
+    }
 
     /**
      * Get data
@@ -178,4 +204,26 @@ class Request extends UUIDModel implements IModel, EventData
     {
         return $this->id;
     }
+//
+//    /**
+//     * To prepare body attribute
+//     *
+//     * @param string $key
+//     * @param mixed  $value
+//     *
+//     * @return mixed
+//     */
+//    public function setAttribute($key, $value)
+//    {
+//        if ($key === 'body') {
+//            $body = [];
+//            $value = (array)$value;
+//            foreach ($value as $paramKey => $paramValue) {
+//                $body[mb_strtolower($paramKey)] = $paramValue;
+//            }
+//            $value = $body;
+//        }
+//
+//        return parent::setAttribute($key, $value);
+//    }
 }

@@ -50,7 +50,7 @@ class Flow extends UUIDModel implements IFlow, Model
             return $this->head();
         }
 
-        return $this->data[$id]['next'];
+        return isset($this->data[$id]['next']) ? array_first($this->data[$id]['next']) : null;
     }
 
     /**
@@ -62,7 +62,31 @@ class Flow extends UUIDModel implements IFlow, Model
      */
     public function getPrev(string $id): ?string
     {
-        return $this->data[$id]['prev'] ?? null;
+        return isset($this->data[$id]['prev']) ? array_first($this->data[$id]['prev']) : null;
+    }
+
+    /**
+     * Check next step has condition
+     *
+     * @param string $id
+     *
+     * @return bool
+     */
+    public function isConditional(string $id): bool
+    {
+        return isset($this->data[$id]['condition']) && !empty($this->data[$id]['condition']);
+    }
+
+    /**
+     * Get condition for flow step
+     *
+     * @param string $id
+     *
+     * @return array
+     */
+    public function getCondition(string $id): array
+    {
+        return $this->data[$id]['condition'] ?? [];
     }
 
     /**
