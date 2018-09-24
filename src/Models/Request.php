@@ -204,26 +204,18 @@ class Request extends UUIDModel implements IModel, EventData
     {
         return $this->id;
     }
-//
-//    /**
-//     * To prepare body attribute
-//     *
-//     * @param string $key
-//     * @param mixed  $value
-//     *
-//     * @return mixed
-//     */
-//    public function setAttribute($key, $value)
-//    {
-//        if ($key === 'body') {
-//            $body = [];
-//            $value = (array)$value;
-//            foreach ($value as $paramKey => $paramValue) {
-//                $body[mb_strtolower($paramKey)] = $paramValue;
-//            }
-//            $value = $body;
-//        }
-//
-//        return parent::setAttribute($key, $value);
-//    }
+
+
+    /**
+     * Get value by key
+     *
+     * @param string $key
+     * @param mixed  $default
+     *
+     * @return mixed
+     */
+    public function get(string $key, $default = null)
+    {
+        return $this->getData()[$key] ?? $default;
+    }
 }
