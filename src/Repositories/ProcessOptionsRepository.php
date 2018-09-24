@@ -1,10 +1,11 @@
 <?php namespace professionalweb\IntegrationHub\IntegrationHubDB\Repositories;
 
+use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Collection;
 use professionalweb\IntegrationHub\IntegrationHubDB\Interfaces\Model;
 use professionalweb\IntegrationHub\IntegrationHubDB\Models\ProcessOptions;
+use professionalweb\IntegrationHub\IntegrationHubDB\Models\ProcessOptions\TransitProcessOptions;
 use professionalweb\IntegrationHub\IntegrationHubDB\Interfaces\Repositories\ProcessOptionsRepository as IProcessOptionsRepository;
-use Ramsey\Uuid\Uuid;
 
 /**
  * Process options repository
@@ -40,6 +41,9 @@ class ProcessOptionsRepository extends BaseRepository implements IProcessOptions
 
         if ($result === null) {
             $result = $this->getStaticCollection()->firstWhere('id', $id);
+        }
+        if ($result === null) {
+            $result = new TransitProcessOptions($id);
         }
 
         return $result;
