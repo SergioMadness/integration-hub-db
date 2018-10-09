@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CRMBufferInit extends Migration
+class Integrations extends Migration
 {
     /**
      * Run the migrations.
