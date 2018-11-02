@@ -11,5 +11,6 @@ class TransitProcessOptions extends ProcessOptions
             'mapping'      => [],
             'options'      => [],
         ]);
+        $this->setAttribute('id', $systemId);
     }
 }
