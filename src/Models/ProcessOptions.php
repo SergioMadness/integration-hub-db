@@ -97,4 +97,14 @@ class ProcessOptions extends UUIDModel implements IProcessOptions, Model
     {
         return $this->subsystem_id;
     }
+
+    /**
+     * Get process id
+     *
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
 }
