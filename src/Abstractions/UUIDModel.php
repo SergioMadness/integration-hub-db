@@ -1,6 +1,6 @@
 <?php namespace professionalweb\IntegrationHub\IntegrationHubDB\Abstractions;
 
-use Ramsey\Uuid\Uuid;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -36,6 +36,6 @@ abstract class UUIDModel extends Model
      */
     public function generateId(): string
     {
-        return $this->id = Uuid::uuid4();
+        return $this->id = Str::uuid();
     }
 }
