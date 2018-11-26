@@ -220,4 +220,28 @@ class Request extends UUIDModel implements IModel, EventData
     {
         return $this->getData()[$key] ?? $default;
     }
+
+    /**
+     * Set request status
+     *
+     * @param string $status
+     *
+     * @return Request
+     */
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get request statu
+     *
+     * @return string
+     */
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
 }

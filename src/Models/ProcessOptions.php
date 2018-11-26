@@ -107,4 +107,14 @@ class ProcessOptions extends UUIDModel implements IProcessOptions, Model
     {
         return $this->id;
     }
+
+    /**
+     * Need to stop on fail
+     *
+     * @return bool
+     */
+    public function stopOnFail(): bool
+    {
+        return $this->getOptions()['stop_on_fail'] ?? false;
+    }
 }
