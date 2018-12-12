@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use professionalweb\IntegrationHub\IntegrationHub\Models\Application;
 use professionalweb\IntegrationHub\IntegrationHubDB\Abstractions\UUIDModel;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\EventData;
-use professionalweb\IntegrationHub\IntegrationHubDB\Interfaces\Model as IModel;
+use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Model as IModel;
 
 /**
  * Request
@@ -24,16 +24,6 @@ use professionalweb\IntegrationHub\IntegrationHubDB\Interfaces\Model as IModel;
  */
 class Request extends UUIDModel implements IModel, EventData
 {
-    public const STATUS_NEW = 'new';
-
-    public const STATUS_QUEUE = 'queue';
-
-    public const STATUS_SUCCESS = 'success';
-
-    public const STATUS_FAILED = 'failed';
-
-    public const STATUS_RETRY = 'need_another_attempt';
-
     public const DEFAULT_TYPE = 'request';
 
     protected $table = 'requests';

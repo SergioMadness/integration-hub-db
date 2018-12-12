@@ -2,10 +2,10 @@
 
 use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Collection;
-use professionalweb\IntegrationHub\IntegrationHubDB\Interfaces\Model;
 use professionalweb\IntegrationHub\IntegrationHubDB\Models\ProcessOptions;
+use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Model;
 use professionalweb\IntegrationHub\IntegrationHubDB\Models\ProcessOptions\TransitProcessOptions;
-use professionalweb\IntegrationHub\IntegrationHubDB\Interfaces\Repositories\ProcessOptionsRepository as IProcessOptionsRepository;
+use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Repositories\ProcessOptionsRepository as IProcessOptionsRepository;
 
 /**
  * Process options repository

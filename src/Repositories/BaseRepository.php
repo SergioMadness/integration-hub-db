@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Collection;
 use Illuminate\Database\Query\Builder;
-use professionalweb\IntegrationHub\IntegrationHubDB\Interfaces\Model;
-use professionalweb\IntegrationHub\IntegrationHubDB\Interfaces\Repository;
+use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Model;
+use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Repositories\Repository;
 
 /**
  * Basic abstract repository
