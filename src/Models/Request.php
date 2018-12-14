@@ -120,9 +120,9 @@ class Request extends UUIDModel implements IModel, EventData
      * @param string $flowId
      * @param string $stepId
      *
-     * @return Request
+     * @return EventData
      */
-    public function setCurrentStep(string $flowId, string $stepId): self
+    public function setCurrentStep(string $flowId, string $stepId): EventData
     {
         $processingInfo = $this->processing_info;
 
@@ -140,12 +140,12 @@ class Request extends UUIDModel implements IModel, EventData
      * Set process response
      *
      * @param string $processId
-     * @param bool   $processSucceed
+     * @param bool   $succeed
      * @param mixed  $processResponse
      *
-     * @return Request
+     * @return EventData
      */
-    public function setProcessResponse(string $processId, $processResponse, bool $processSucceed = true): self
+    public function setProcessResponse(string $processId, $processResponse, bool $succeed = true): EventData
     {
         $processingInfo = $this->processing_info;
 
@@ -154,7 +154,7 @@ class Request extends UUIDModel implements IModel, EventData
         }
         $processingInfo['process_response'][$processId] = [
             'processId' => $processId,
-            'isError'   => !$processSucceed,
+            'isError'   => !$succeed,
             'response'  => $processResponse,
         ];
 
@@ -216,9 +216,9 @@ class Request extends UUIDModel implements IModel, EventData
      *
      * @param string $status
      *
-     * @return Request
+     * @return EventData
      */
-    public function setStatus(string $status): self
+    public function setStatus(string $status): EventData
     {
         $this->status = $status;
 
