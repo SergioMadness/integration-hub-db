@@ -131,7 +131,7 @@ class Request extends UUIDModel implements IModel, EventData
 
         $this->processing_info = $processingInfo;
 
-        $this->status = empty($stepId) ? self::STATUS_SUCCESS : self::STATUS_QUEUE;
+//        $this->status = empty($stepId) ? self::STATUS_SUCCESS : self::STATUS_QUEUE;
 
         return $this;
     }
