@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use professionalweb\IntegrationHub\IntegrationHub\Models\Application;
 use professionalweb\IntegrationHub\IntegrationHubDB\Abstractions\UUIDModel;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\EventData;
-use professionalweb\IntegrationHub\IntegrationHubDB\Interfaces\Model as IModel;
+use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Model as IModel;
 
 /**
  * Request
@@ -24,16 +24,6 @@ use professionalweb\IntegrationHub\IntegrationHubDB\Interfaces\Model as IModel;
  */
 class Request extends UUIDModel implements IModel, EventData
 {
-    public const STATUS_NEW = 'new';
-
-    public const STATUS_QUEUE = 'queue';
-
-    public const STATUS_SUCCESS = 'success';
-
-    public const STATUS_FAILED = 'failed';
-
-    public const STATUS_RETRY = 'need_another_attempt';
-
     public const DEFAULT_TYPE = 'request';
 
     protected $table = 'requests';
@@ -130,9 +120,9 @@ class Request extends UUIDModel implements IModel, EventData
      * @param string $flowId
      * @param string $stepId
      *
-     * @return Request
+     * @return EventData
      */
-    public function setCurrentStep(string $flowId, string $stepId): self
+    public function setCurrentStep(string $flowId, string $stepId): EventData
     {
         $processingInfo = $this->processing_info;
 
@@ -141,7 +131,7 @@ class Request extends UUIDModel implements IModel, EventData
 
         $this->processing_info = $processingInfo;
 
-        $this->status = empty($stepId) ? self::STATUS_SUCCESS : self::STATUS_QUEUE;
+//        $this->status = empty($stepId) ? self::STATUS_SUCCESS : self::STATUS_QUEUE;
 
         return $this;
     }
@@ -150,12 +140,12 @@ class Request extends UUIDModel implements IModel, EventData
      * Set process response
      *
      * @param string $processId
-     * @param bool   $processSucceed
+     * @param bool   $succeed
      * @param mixed  $processResponse
      *
-     * @return Request
+     * @return EventData
      */
-    public function setProcessResponse(string $processId, $processResponse, bool $processSucceed = true): self
+    public function setProcessResponse(string $processId, $processResponse, bool $succeed = true): EventData
     {
         $processingInfo = $this->processing_info;
 
@@ -164,7 +154,7 @@ class Request extends UUIDModel implements IModel, EventData
         }
         $processingInfo['process_response'][$processId] = [
             'processId' => $processId,
-            'isError'   => !$processSucceed,
+            'isError'   => !$succeed,
             'response'  => $processResponse,
         ];
 
@@ -226,9 +216,9 @@ class Request extends UUIDModel implements IModel, EventData
      *
      * @param string $status
      *
-     * @return Request
+     * @return EventData
      */
-    public function setStatus(string $status): self
+    public function setStatus(string $status): EventData
     {
         $this->status = $status;
 

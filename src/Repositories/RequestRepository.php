@@ -1,8 +1,8 @@
 <?php namespace professionalweb\IntegrationHub\IntegrationHubDB\Repositories;
 
 use professionalweb\IntegrationHub\IntegrationHubDB\Models\Request;
-use professionalweb\IntegrationHub\IntegrationHubDB\Interfaces\Model;
-use professionalweb\IntegrationHub\IntegrationHubDB\Interfaces\Repositories\RequestRepository as IRequestRepository;
+use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Model;
+use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Repositories\RequestRepository as IRequestRepository;
 
 /**
  * Repository of requests

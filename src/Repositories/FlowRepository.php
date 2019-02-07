@@ -2,9 +2,10 @@
 
 use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Collection;
-use professionalweb\IntegrationHub\IntegrationHubDB\Models\Flow;
-use professionalweb\IntegrationHub\IntegrationHubDB\Interfaces\Model;
-use professionalweb\IntegrationHub\IntegrationHubDB\Interfaces\Repositories\FlowRepository as IFlowRepository;
+use professionalweb\IntegrationHub\IntegrationHubDB\Models\Flow as FlowModel;
+use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Flow;
+use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Model;
+use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Repositories\FlowRepository as IFlowRepository;
 
 /**
  * Repository to work with event flows
@@ -12,7 +13,6 @@ use professionalweb\IntegrationHub\IntegrationHubDB\Interfaces\Repositories\Flow
  *
  * @method save(Flow $model): bool
  * @method create(array $attributes = []): Flow
- * @method model($id): ?Flow
  * @method remove(Flow $model): bool
  * @method fill(Flow $model, array $attributes = []): Flow
  */
@@ -27,7 +27,7 @@ class FlowRepository extends BaseRepository implements IFlowRepository
     {
         $this
             ->setStaticCollection($collection ?? collect([]))
-            ->setModelClass(Flow::class);
+            ->setModelClass(FlowModel::class);
     }
 
     /**
@@ -38,7 +38,7 @@ class FlowRepository extends BaseRepository implements IFlowRepository
     public function getDefault(): ?Flow
     {
         /** @var Flow $defaultFlow */
-        $defaultFlow = Flow::query()->where('is_default', true)->where('is_active', true)->first();
+        $defaultFlow = FlowModel::query()->where('is_default', true)->where('is_active', true)->first();
 
         if ($defaultFlow === null) {
             $defaultFlow = $this->getStaticCollection()->firstWhere('is_default', true);
