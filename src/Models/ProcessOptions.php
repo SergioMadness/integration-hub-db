@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use professionalweb\IntegrationHub\IntegrationHubDB\Abstractions\UUIDModel;
-use professionalweb\IntegrationHub\IntegrationHubDB\Interfaces\Models\ProcessOptions as IProcessOptions;
+use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Model;
+use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\ProcessOptions as IProcessOptions;
 
 /**
  * Process options
@@ -17,7 +18,7 @@ use professionalweb\IntegrationHub\IntegrationHubDB\Interfaces\Models\ProcessOpt
  * @property string $updated_at
  * @property string $deleted_at
  */
-class ProcessOptions extends UUIDModel implements IProcessOptions
+class ProcessOptions extends UUIDModel implements IProcessOptions, Model
 {
     use SoftDeletes;
 
@@ -28,6 +29,13 @@ class ProcessOptions extends UUIDModel implements IProcessOptions
     protected $casts = [
         'mapping' => 'array',
         'options' => 'array',
+    ];
+
+    protected $fillable = [
+        'name',
+        'mapping',
+        'options',
+        'subsystem_id',
     ];
 
     /**
@@ -57,7 +65,7 @@ class ProcessOptions extends UUIDModel implements IProcessOptions
      */
     public function isRemote(): bool
     {
-        return $this->getOptions()['is_remote'];
+        return $this->getOptions()['is_remote'] ?? false;
     }
 
     /**
@@ -67,7 +75,7 @@ class ProcessOptions extends UUIDModel implements IProcessOptions
      */
     public function getQueue(): string
     {
-        return $this->getOptions()['queue'];
+        return $this->getOptions()['queue'] ?? '';
     }
 
     /**
@@ -77,7 +85,7 @@ class ProcessOptions extends UUIDModel implements IProcessOptions
      */
     public function getHost(): string
     {
-        return $this->getOptions()['host'];
+        return $this->getOptions()['host'] ?? '';
     }
 
     /**
@@ -88,5 +96,25 @@ class ProcessOptions extends UUIDModel implements IProcessOptions
     public function getSubsystemId(): string
     {
         return $this->subsystem_id;
+    }
+
+    /**
+     * Get process id
+     *
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    /**
+     * Need to stop on fail
+     *
+     * @return bool
+     */
+    public function stopOnFail(): bool
+    {
+        return $this->getOptions()['stop_on_fail'] ?? false;
     }
 }

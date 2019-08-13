@@ -2,7 +2,8 @@
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use professionalweb\IntegrationHub\IntegrationHubDB\Abstractions\UUIDModel;
-use professionalweb\IntegrationHub\IntegrationHubDB\Interfaces\Models\Flow as IFlow;
+use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Model;
+use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Flow as IFlow;
 
 /**
  * Process flow model
@@ -17,7 +18,7 @@ use professionalweb\IntegrationHub\IntegrationHubDB\Interfaces\Models\Flow as IF
  * @property string  $updated_at
  * @property string  $deleted_at
  */
-class Flow extends UUIDModel implements IFlow
+class Flow extends UUIDModel implements IFlow, Model
 {
     use SoftDeletes;
 
@@ -27,6 +28,13 @@ class Flow extends UUIDModel implements IFlow
 
     protected $casts = [
         'data' => 'array',
+    ];
+
+    protected $fillable = [
+        'name',
+        'is_default',
+        'is_active',
+        'data',
     ];
 
     /**
@@ -42,7 +50,7 @@ class Flow extends UUIDModel implements IFlow
             return $this->head();
         }
 
-        return $this->data[$id]['next'];
+        return isset($this->data[$id]['next']) ? array_first($this->data[$id]['next']) : null;
     }
 
     /**
@@ -54,7 +62,31 @@ class Flow extends UUIDModel implements IFlow
      */
     public function getPrev(string $id): ?string
     {
-        return $this->data[$id]['prev'] ?? null;
+        return isset($this->data[$id]['prev']) ? array_first($this->data[$id]['prev']) : null;
+    }
+
+    /**
+     * Check next step has condition
+     *
+     * @param string $id
+     *
+     * @return bool
+     */
+    public function isConditional(string $id): bool
+    {
+        return isset($this->data[$id]['condition']) && !empty($this->data[$id]['condition']);
+    }
+
+    /**
+     * Get condition for flow step
+     *
+     * @param string $id
+     *
+     * @return array
+     */
+    public function getCondition(string $id): array
+    {
+        return $this->data[$id]['condition'] ?? [];
     }
 
     /**

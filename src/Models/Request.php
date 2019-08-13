@@ -1,10 +1,10 @@
 <?php namespace professionalweb\IntegrationHub\IntegrationHubDB\Models;
 
-use professionalweb\IntegrationHub\IntegrationHub\Models\Application;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use professionalweb\IntegrationHub\IntegrationHub\Models\Application;
 use professionalweb\IntegrationHub\IntegrationHubDB\Abstractions\UUIDModel;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\EventData;
-use professionalweb\IntegrationHub\IntegrationHubDB\Interfaces\Model as IModel;
+use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Model as IModel;
 
 /**
  * Request
@@ -24,16 +24,6 @@ use professionalweb\IntegrationHub\IntegrationHubDB\Interfaces\Model as IModel;
  */
 class Request extends UUIDModel implements IModel, EventData
 {
-    public const STATUS_NEW = 'new';
-
-    public const STATUS_QUEUE = 'queue';
-
-    public const STATUS_SUCCESS = 'success';
-
-    public const STATUS_FAILED = 'failed';
-
-    public const STATUS_RETRY = 'need_another_attempt';
-
     public const DEFAULT_TYPE = 'request';
 
     protected $table = 'requests';
@@ -111,7 +101,7 @@ class Request extends UUIDModel implements IModel, EventData
      */
     public function getCurrentFlow(): string
     {
-        return $this->processing_info['current_step'] ?: '';
+        return $this->processing_info['current_flow'] ?: '';
     }
 
     /**
@@ -121,7 +111,7 @@ class Request extends UUIDModel implements IModel, EventData
      */
     public function getCurrentStep(): string
     {
-        return $this->processing_info['current_flow'] ?: '';
+        return $this->processing_info['current_step'] ?: '';
     }
 
     /**
@@ -130,9 +120,9 @@ class Request extends UUIDModel implements IModel, EventData
      * @param string $flowId
      * @param string $stepId
      *
-     * @return Request
+     * @return EventData
      */
-    public function setCurrentStep(string $flowId, string $stepId): self
+    public function setCurrentStep(string $flowId, string $stepId): EventData
     {
         $processingInfo = $this->processing_info;
 
@@ -140,8 +130,38 @@ class Request extends UUIDModel implements IModel, EventData
         $processingInfo['current_step'] = $stepId;
 
         $this->processing_info = $processingInfo;
+
+//        $this->status = empty($stepId) ? self::STATUS_SUCCESS : self::STATUS_QUEUE;
+
+        return $this;
     }
 
+    /**
+     * Set process response
+     *
+     * @param string $processId
+     * @param bool   $succeed
+     * @param mixed  $processResponse
+     *
+     * @return EventData
+     */
+    public function setProcessResponse(string $processId, $processResponse, bool $succeed = true): EventData
+    {
+        $processingInfo = $this->processing_info;
+
+        if (!isset($processingInfo['process_response'])) {
+            $processingInfo['process_response'] = [];
+        }
+        $processingInfo['process_response'][$processId] = [
+            'processId' => $processId,
+            'isError'   => !$succeed,
+            'response'  => $processResponse,
+        ];
+
+        $this->processing_info = $processingInfo;
+
+        return $this;
+    }
 
     /**
      * Get data
@@ -175,5 +195,43 @@ class Request extends UUIDModel implements IModel, EventData
     public function getId()
     {
         return $this->id;
+    }
+
+
+    /**
+     * Get value by key
+     *
+     * @param string $key
+     * @param mixed  $default
+     *
+     * @return mixed
+     */
+    public function get(string $key, $default = null)
+    {
+        return $this->getData()[$key] ?? $default;
+    }
+
+    /**
+     * Set request status
+     *
+     * @param string $status
+     *
+     * @return EventData
+     */
+    public function setStatus(string $status): EventData
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get request statu
+     *
+     * @return string
+     */
+    public function getStatus(): string
+    {
+        return $this->status;
     }
 }

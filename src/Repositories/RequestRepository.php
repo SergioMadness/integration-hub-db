@@ -1,12 +1,17 @@
 <?php namespace professionalweb\IntegrationHub\IntegrationHubDB\Repositories;
 
 use professionalweb\IntegrationHub\IntegrationHubDB\Models\Request;
-use professionalweb\IntegrationHub\IntegrationHubDB\Interfaces\Model;
-use professionalweb\IntegrationHub\IntegrationHubDB\Interfaces\Repositories\RequestRepository as IRequestRepository;
+use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Model;
+use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Repositories\RequestRepository as IRequestRepository;
 
 /**
  * Repository of requests
  * @package professionalweb\IntegrationHub\Supervisor\Repositories
+ *
+ * @method save(Request $model): bool
+ * @method model($id): ?Request
+ * @method remove(Request $model): bool
+ * @method fill(Request $model, array $attributes = []): Request
  */
 class RequestRepository extends BaseRepository implements IRequestRepository
 {
@@ -20,7 +25,7 @@ class RequestRepository extends BaseRepository implements IRequestRepository
      *
      * @param array $attributes
      *
-     * @return Model
+     * @return Request
      */
     public function create(array $attributes = []): Model
     {
