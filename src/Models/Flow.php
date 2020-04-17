@@ -195,6 +195,6 @@ class Flow extends UUIDModel implements IFlow, Model
             ->setNextId((array)$itemData['next'])
             ->setPrevId((array)$itemData['prev'])
             ->setConditions($itemData['condition'] ?? [])
-            ->setSubsystemId($itemData['subsystem'] ?? '');
+            ->setSubsystemId($itemData['subsystem'] ?? $itemData['id']);
     }
 }
