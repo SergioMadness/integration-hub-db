@@ -3,6 +3,8 @@
 use Illuminate\Database\Eloquent\SoftDeletes;
 use professionalweb\IntegrationHub\IntegrationHubDB\Abstractions\UUIDModel;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Model;
+use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\FlowStep;
+use professionalweb\IntegrationHub\IntegrationHubDB\Models\FlowStep as FlowStepModel;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Flow as IFlow;
 
 /**
@@ -42,15 +44,18 @@ class Flow extends UUIDModel implements IFlow, Model
      *
      * @param string $id
      *
-     * @return string
+     * @return FlowStep
+     * @throws \Exception
      */
-    public function getNext(string $id): ?string
+    public function getNext(string $id): ?FlowStep
     {
         if (empty($id) || !isset($this->data[$id])) {
             return $this->head();
         }
 
-        return isset($this->data[$id]['next']) ? array_first($this->data[$id]['next']) : null;
+        $nextId = $this->getNode($id)->getNextId();
+
+        return empty($nextId) ? null : $this->getNode($nextId);
     }
 
     /**
@@ -58,11 +63,14 @@ class Flow extends UUIDModel implements IFlow, Model
      *
      * @param string $id
      *
-     * @return string
+     * @return FlowStep
+     * @throws \Exception
      */
-    public function getPrev(string $id): ?string
+    public function getPrev(string $id): ?FlowStep
     {
-        return isset($this->data[$id]['prev']) ? array_first($this->data[$id]['prev']) : null;
+        $prevId = $this->getNode($id)->getPrevId();
+
+        return empty($prevId) ? null : $this->getNode($prevId);
     }
 
     /**
@@ -71,10 +79,11 @@ class Flow extends UUIDModel implements IFlow, Model
      * @param string $id
      *
      * @return bool
+     * @throws \Exception
      */
     public function isConditional(string $id): bool
     {
-        return isset($this->data[$id]['condition']) && !empty($this->data[$id]['condition']);
+        return !empty($this->getNode($id)->getConditions());
     }
 
     /**
@@ -83,29 +92,45 @@ class Flow extends UUIDModel implements IFlow, Model
      * @param string $id
      *
      * @return array
+     * @throws \Exception
      */
     public function getCondition(string $id): array
     {
-        return $this->data[$id]['condition'] ?? [];
+        return $this->getNode($id)->getConditions();
     }
 
     /**
      * Add node
      *
-     * @param string      $id
-     * @param null|string $next
-     * @param null|string $prev
+     * @param FlowStep $step
      *
      * @return IFlow
      */
-    public function addNode(string $id, ?string $next, ?string $prev): IFlow
+    public function addNode(FlowStep $step): IFlow
     {
-        $this->data[$id] = [
-            'next' => $next,
-            'prev' => $prev,
-        ];
+        $this->data[$step->getId()] = $step;
 
         return $this;
+    }
+
+    /**
+     * Get node by id
+     *
+     * @param string $id
+     *
+     * @return FlowStep
+     * @throws \Exception
+     */
+    public function getNode(string $id): FlowStep
+    {
+        if (!isset($this->data[$id])) {
+            throw new \Exception('Node not found');
+        }
+        if (is_array($this->data[$id])) {
+            $this->data[$id] = $this->makeFlowStep($this->data[$id]);
+        }
+
+        return $this->data[$id];
     }
 
     /**
@@ -117,17 +142,19 @@ class Flow extends UUIDModel implements IFlow, Model
      */
     public function removeNode(string $id): IFlow
     {
-        $data = $this->data;
+        try {
+            $node = $this->getNode($id);
 
-        if ($data[$id]['prev'] !== null) {
-            $data[$data[$id]['prev']]['next'] = $data[$id]['next'];
+            if (!empty($prev = $node->getPrevId())) {
+                $this->getNode($prev)->setNextId([$node->getNextId()]);
+            }
+            if (!empty($next = $node->getNextId())) {
+                $this->getNode($prev)->setPrevId([$node->getPrevId()]);
+            }
+        } catch (\Exception $e) {
         }
-        if ($data[$id]['next'] !== null) {
-            $data[$data[$id]['next']]['prev'] = $data[$id]['prev'];
-        }
-        unset($data[$id]);
 
-        $this->data = $data;
+        unset($this->data[$id]);
 
         return $this;
     }
@@ -135,20 +162,39 @@ class Flow extends UUIDModel implements IFlow, Model
     /**
      * Get first node
      *
-     * @return null|string
+     * @return null|FlowStep
+     * @throws \Exception
      */
-    public function head(): ?string
+    public function head(): ?FlowStep
     {
-        return array_keys($this->data)[0] ?? null;
+        return $this->getNode(array_keys($this->data)[0] ?? '');
     }
 
     /**
      * Get last node
      *
-     * @return null|string
+     * @return null|FlowStep
+     * @throws \Exception
      */
-    public function tail(): ?string
+    public function tail(): ?FlowStep
     {
-        return array_keys($this->data)[\count($this->data) - 1] ?? null;
+        return $this->getNode(array_keys($this->data)[\count($this->data) - 1] ?? '');
+    }
+
+    /**
+     * Translate array to flow step model
+     *
+     * @param array $itemData
+     *
+     * @return FlowStep
+     */
+    protected function makeFlowStep(array $itemData): FlowStep
+    {
+        return (new FlowStepModel())
+            ->setId($itemData['id'])
+            ->setNextId((array)$itemData['next'])
+            ->setPrevId((array)$itemData['prev'])
+            ->setConditions($itemData['condition'] ?? [])
+            ->setSubsystemId($itemData['subsystem'] ?? '');
     }
 }
