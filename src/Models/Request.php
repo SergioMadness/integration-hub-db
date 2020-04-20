@@ -101,7 +101,7 @@ class Request extends UUIDModel implements IModel, EventData
      */
     public function stopPropagation(): self
     {
-        return $this->setNextStep('', '')->setStatus(self::STATUS_FAILED);
+        return $this->setNextStep('', '');
     }
 
     public function toArray(): array
@@ -161,6 +161,16 @@ class Request extends UUIDModel implements IModel, EventData
         return $this
             ->setArrayItem('processing_info', 'next_flow', $flowId)
             ->setArrayItem('processing_info', 'next_step', $stepId);
+    }
+
+    /**
+     * Get next step
+     *
+     * @return string
+     */
+    public function getNextStep(): string
+    {
+        return (string)$this->getArrayItem('processing_info', 'next_step', '');
     }
 
     /**
