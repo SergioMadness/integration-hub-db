@@ -4,6 +4,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use professionalweb\IntegrationHub\IntegrationHub\Models\Application;
 use professionalweb\IntegrationHub\IntegrationHubDB\Abstractions\UUIDModel;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\EventData;
+use professionalweb\IntegrationHub\IntegrationHubCommon\Traits\HasArrayField;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Model as IModel;
 
 /**
@@ -24,6 +25,8 @@ use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Model 
  */
 class Request extends UUIDModel implements IModel, EventData
 {
+    use HasArrayField;
+
     public const DEFAULT_TYPE = 'request';
 
     protected $table = 'requests';
@@ -50,7 +53,7 @@ class Request extends UUIDModel implements IModel, EventData
         'created_at',
     ];
 
-    public static function boot()
+    public static function boot(): void
     {
         parent::boot();
 
@@ -78,11 +81,7 @@ class Request extends UUIDModel implements IModel, EventData
      */
     public function incAttempts(): self
     {
-        $data = $this->processing_info;
-        $data['attempts'] = isset($data['attempts']) ? ++$data['attempts'] : 1;
-        $this->processing_info = $data;
-
-        return $this;
+        return $this->setArrayItem('data', 'attempts', $this->getArrayItem('data', 'attempts', 0) + 1);
     }
 
     public function toArray(): array
@@ -124,16 +123,39 @@ class Request extends UUIDModel implements IModel, EventData
      */
     public function setCurrentStep(string $flowId, string $stepId): EventData
     {
-        $processingInfo = $this->processing_info;
+        return $this
+            ->setArrayItem('processing_info', 'current_flow', $flowId)
+            ->setArrayItem('processing_info', 'current_step', $stepId);
+    }
 
-        $processingInfo['current_flow'] = $flowId;
-        $processingInfo['current_step'] = $stepId;
+    /**
+     * Set next step id
+     *
+     * @param string $flowId
+     * @param string $stepId
+     *
+     * @return $this
+     */
+    public function setNextStep(string $flowId, string $stepId): EventData
+    {
+        return $this
+            ->setArrayItem('processing_info', 'next_flow', $flowId)
+            ->setArrayItem('processing_info', 'next_step', $stepId);
+    }
 
-        $this->processing_info = $processingInfo;
+    /**
+     * Move to next step
+     *
+     * @return $this
+     */
+    public function move(): EventData
+    {
+        $nextFlowId = $this->getArrayItem('processing_info', 'next_flow');
+        if (!empty($nextFlowId)) {
+            $this->setCurrentStep((string)$nextFlowId, (string)$this->getArrayItem('processing_info', 'next_step', ''));
+        }
 
-//        $this->status = empty($stepId) ? self::STATUS_SUCCESS : self::STATUS_QUEUE;
-
-        return $this;
+        return $this->setNextStep('', '');
     }
 
     /**
