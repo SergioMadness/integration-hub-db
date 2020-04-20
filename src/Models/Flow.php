@@ -121,16 +121,24 @@ class Flow extends UUIDModel implements IFlow, Model
      * @return FlowStep
      * @throws \Exception
      */
-    public function getNode(string $id): FlowStep
+    public function getNode(string $id): ?FlowStep
     {
-        if (!isset($this->data[$id])) {
-            throw new \Exception('Node not found');
-        }
-        if (is_array($this->data[$id])) {
-            $this->data[$id] = $this->makeFlowStep($this->data[$id]);
+        static $cache = [];
+        if (isset($cache[$id])) {
+            return $cache[$id];
         }
 
-        return $this->data[$id];
+        $data = $this->data;
+        if (!isset($data[$id])) {
+            return null;
+        }
+        if (is_array($data[$id])) {
+            $cache[$id] = $this->makeFlowStep($data[$id]);
+        } else {
+            $cache[$id] = $data[$id];
+        }
+
+        return $cache[$id];
     }
 
     /**
