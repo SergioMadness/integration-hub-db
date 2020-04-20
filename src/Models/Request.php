@@ -81,7 +81,27 @@ class Request extends UUIDModel implements IModel, EventData
      */
     public function incAttempts(): self
     {
-        return $this->setArrayItem('data', 'attempts', $this->getArrayItem('data', 'attempts', 0) + 1);
+        return $this->setArrayItem('processing_info', 'attempts', $this->getArrayItem('processing_info', 'attempts', 0) + 1);
+    }
+
+    /**
+     * Get attempts quantity
+     *
+     * @return int
+     */
+    public function getAttemptQty(): int
+    {
+        return (int)$this->getArrayItem('processing_info', 'attempts', 0);
+    }
+
+    /**
+     * Stop request processing
+     *
+     * @return $this
+     */
+    public function stopPropagation(): self
+    {
+        return $this->setNextStep('', '')->setStatus(self::STATUS_FAILED);
     }
 
     public function toArray(): array
