@@ -286,4 +286,14 @@ class Request extends UUIDModel implements IModel, EventData
     {
         return $this->status;
     }
+
+    /**
+     * Set attempts to 0
+     *
+     * @return $this
+     */
+    public function dropAttempts(): EventData
+    {
+        return $this->setArrayItem('processing_info', 'attempts', 0);
+    }
 }
