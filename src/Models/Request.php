@@ -99,7 +99,7 @@ class Request extends UUIDModel implements IModel, EventData
      *
      * @return $this
      */
-    public function stopPropagation(): self
+    public function stopPropagation(): EventData
     {
         return $this->setNextStep('', '');
     }
