@@ -11,7 +11,7 @@ class Integrations extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('requests', function (Blueprint $table) {
             $table->uuid('id')->primary();
@@ -37,7 +37,7 @@ class Integrations extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::drop('requests');
     }
