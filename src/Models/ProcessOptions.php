@@ -45,7 +45,7 @@ class ProcessOptions extends UUIDModel implements IProcessOptions, Model
      */
     public function getMapping(): array
     {
-        return $this->mapping;
+        return $this->mapping ?? [];
     }
 
     /**
@@ -55,7 +55,7 @@ class ProcessOptions extends UUIDModel implements IProcessOptions, Model
      */
     public function getOptions(): array
     {
-        return $this->options;
+        return $this->options ?? [];
     }
 
     /**
