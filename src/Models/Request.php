@@ -120,7 +120,7 @@ class Request extends UUIDModel implements IModel, EventData
      */
     public function getCurrentFlow(): string
     {
-        return $this->processing_info['current_flow'] ?: '';
+        return $this->processing_info['current_flow'] ?? '';
     }
 
     /**
@@ -130,7 +130,7 @@ class Request extends UUIDModel implements IModel, EventData
      */
     public function getCurrentStep(): string
     {
-        return $this->processing_info['current_step'] ?: '';
+        return $this->processing_info['current_step'] ?? '';
     }
 
     /**
