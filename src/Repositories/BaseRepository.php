@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Collection;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator as BasePaginator;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Model;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Repositories\Repository;
 
@@ -155,5 +158,25 @@ abstract class BaseRepository implements Repository
     public function getModelClass(): string
     {
         return $this->modelClass;
+    }
+
+    /**
+     * Get data with pagination
+     *
+     * @param array    $filters
+     * @param array    $sort
+     * @param int|null $limit
+     * @param int|null $offset
+     *
+     * @return Paginator
+     */
+    public function pagination(array $filters = [], array $sort = [], ?int $limit = null, ?int $offset = null): Paginator
+    {
+        $qty = $this->count($filters);
+        $items = $qty > 0 ? $this->get($filters, $sort, $limit, $offset) : [];
+
+        return new LengthAwarePaginator($items, $qty, $limit, floor($offset / $limit), [
+            'path' => BasePaginator::resolveCurrentPath(),
+        ]);
     }
 }
