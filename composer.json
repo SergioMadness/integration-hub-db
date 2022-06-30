@@ -16,7 +16,8 @@
   "require": {
     "php": ">=7.4",
     "laravel/framework": "5.*",
-    "ramsey/uuid": "^3.5"
+    "ramsey/uuid": "^3.5",
+    "professionalweb/lms-common": "dev-develop"
   },
   "require-dev": {
   },

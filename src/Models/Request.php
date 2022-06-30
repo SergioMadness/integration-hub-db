@@ -1,8 +1,8 @@
 <?php namespace professionalweb\IntegrationHub\IntegrationHubDB\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use professionalweb\lms\Common\Abstractions\UUIDModel;
 use professionalweb\IntegrationHub\IntegrationHub\Models\Application;
-use professionalweb\IntegrationHub\IntegrationHubDB\Abstractions\UUIDModel;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\EventData;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Traits\HasArrayField;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Model as IModel;
@@ -57,7 +57,7 @@ class Request extends UUIDModel implements IModel, EventData
     {
         parent::boot();
 
-        static::creating(function ($model) {
+        static::creating(static function (Request $model) {
             if (empty($model->status)) {
                 $model->status = self::STATUS_NEW;
             }

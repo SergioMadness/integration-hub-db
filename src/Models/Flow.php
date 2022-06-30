@@ -1,7 +1,7 @@
 <?php namespace professionalweb\IntegrationHub\IntegrationHubDB\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
-use professionalweb\IntegrationHub\IntegrationHubDB\Abstractions\UUIDModel;
+use professionalweb\lms\Common\Abstractions\UUIDModel;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Model;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\FlowStep;
 use professionalweb\IntegrationHub\IntegrationHubDB\Models\FlowStep as FlowStepModel;
@@ -25,8 +25,6 @@ class Flow extends UUIDModel implements IFlow, Model
     use SoftDeletes;
 
     protected $table = 'flow';
-
-    public $keyType = 'string';
 
     protected $casts = [
         'data' => 'array',

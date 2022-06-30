@@ -9,15 +9,15 @@ use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\FlowSt
 class FlowStep implements IFlowStep
 {
     /** @var string */
-    private $id = '';
+    private string $id = '';
     /** @var array */
-    private $nextId = [];
+    private array $nextId = [];
     /** @var array */
-    private $prevId = [];
+    private array $prevId = [];
     /** @var string */
-    private $subsystemId = '';
+    private string $subsystemId = '';
     /** @var array */
-    private $conditions = [];
+    private array $conditions = [];
 
     /**
      * Step id

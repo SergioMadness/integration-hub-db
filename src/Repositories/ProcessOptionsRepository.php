@@ -1,10 +1,7 @@
 <?php namespace professionalweb\IntegrationHub\IntegrationHubDB\Repositories;
 
-use Ramsey\Uuid\Uuid;
-use Illuminate\Support\Collection;
+use professionalweb\lms\Common\Abstractions\BaseRepository;
 use professionalweb\IntegrationHub\IntegrationHubDB\Models\ProcessOptions;
-use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Model;
-use professionalweb\IntegrationHub\IntegrationHubDB\Models\ProcessOptions\TransitProcessOptions;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Repositories\ProcessOptionsRepository as IProcessOptionsRepository;
 
 /**
@@ -18,54 +15,8 @@ use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Repositories\
  */
 class ProcessOptionsRepository extends BaseRepository implements IProcessOptionsRepository
 {
-    /**
-     * @var Collection
-     */
-    private $staticCollection;
-
-    public function __construct(Collection $collection = null)
+    public function __construct()
     {
-        $this
-            ->setStaticCollection($collection ?? collect([]))
-            ->setModelClass(ProcessOptions::class);
-    }
-
-    /**
-     * @param int|string $id
-     *
-     * @return null|Model
-     */
-    public function model($id): ?Model
-    {
-        $result = Uuid::isValid($id) ? parent::model($id) : null;
-
-        if ($result === null) {
-            $result = $this->getStaticCollection()->firstWhere('id', $id);
-        }
-        if ($result === null) {
-            $result = new TransitProcessOptions($id);
-        }
-
-        return $result;
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getStaticCollection(): Collection
-    {
-        return $this->staticCollection;
-    }
-
-    /**
-     * @param Collection $staticCollection
-     *
-     * @return $this
-     */
-    public function setStaticCollection(Collection $staticCollection): self
-    {
-        $this->staticCollection = $staticCollection;
-
-        return $this;
+        $this->setModelClass(ProcessOptions::class);
     }
 }
