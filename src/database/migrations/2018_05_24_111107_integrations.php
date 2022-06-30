@@ -15,7 +15,8 @@ class Integrations extends Migration
     {
         Schema::create('requests', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('application_id');
+            $table->uuid('application_id')->nullable();
+            $table->integer('company_id');
             $table->jsonb('body');
             $table->enum('status', ['new', 'queue', 'need_another_attempt', 'success', 'failed'])->default('new');
             $table->jsonb('processing_info')->nullable();
@@ -26,7 +27,11 @@ class Integrations extends Migration
             $table->index('status');
             $table->index('created_at');
             $table->foreign('application_id')
-                ->on('applications')
+                ->on('api_clients')
+                ->references('id')
+                ->onDelete('set null');
+            $table->foreign('company_id')
+                ->on('company')
                 ->references('id')
                 ->onDelete('cascade');
         });
