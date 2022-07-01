@@ -1,8 +1,8 @@
 <?php namespace professionalweb\IntegrationHub\IntegrationHubDB\Repositories;
 
+use Illuminate\Database\Eloquent\Model;
 use professionalweb\lms\Common\Abstractions\EntityRepository;
 use professionalweb\IntegrationHub\IntegrationHubDB\Models\Request;
-use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Model;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Repositories\RequestRepository as IRequestRepository;
 
 /**

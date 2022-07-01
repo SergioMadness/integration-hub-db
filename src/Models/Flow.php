@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use professionalweb\lms\Common\Abstractions\UUIDModel;
-use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Model;
+use professionalweb\lms\Common\Interfaces\Models\Model;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\FlowStep;
 use professionalweb\IntegrationHub\IntegrationHubDB\Models\FlowStep as FlowStepModel;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Flow as IFlow;

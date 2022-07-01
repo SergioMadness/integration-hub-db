@@ -2,10 +2,10 @@
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use professionalweb\lms\Common\Abstractions\UUIDModel;
+use professionalweb\lms\Common\Interfaces\Models\Model as IModel;
 use professionalweb\IntegrationHub\IntegrationHub\Models\Application;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\EventData;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Traits\HasArrayField;
-use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Model as IModel;
 
 /**
  * Request
