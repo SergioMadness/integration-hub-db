@@ -1,6 +1,6 @@
 <?php namespace professionalweb\IntegrationHub\IntegrationHubDB\Repositories;
 
-use professionalweb\lms\Common\Abstractions\BaseRepository;
+use professionalweb\lms\Common\Abstractions\EntityRepository;
 use professionalweb\IntegrationHub\IntegrationHubDB\Models\ProcessOptions;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Repositories\ProcessOptionsRepository as IProcessOptionsRepository;
 
@@ -13,8 +13,10 @@ use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Repositories\
  * @method remove(ProcessOptions $model): bool
  * @method fill(ProcessOptions $model, array $attributes = []): ProcessOptions
  */
-class ProcessOptionsRepository extends BaseRepository implements IProcessOptionsRepository
+class ProcessOptionsRepository extends EntityRepository implements IProcessOptionsRepository
 {
+    public bool $noNeedWebsite = true;
+
     public function __construct()
     {
         $this->setModelClass(ProcessOptions::class);

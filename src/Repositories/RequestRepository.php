@@ -1,6 +1,6 @@
 <?php namespace professionalweb\IntegrationHub\IntegrationHubDB\Repositories;
 
-use professionalweb\lms\Common\Abstractions\BaseRepository;
+use professionalweb\lms\Common\Abstractions\EntityRepository;
 use professionalweb\IntegrationHub\IntegrationHubDB\Models\Request;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Model;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Repositories\RequestRepository as IRequestRepository;
@@ -14,8 +14,10 @@ use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Repositories\
  * @method remove(Request $model): bool
  * @method fill(Request $model, array $attributes = []): Request
  */
-class RequestRepository extends BaseRepository implements IRequestRepository
+class RequestRepository extends EntityRepository implements IRequestRepository
 {
+    public bool $noNeedWebsite = true;
+
     public function __construct()
     {
         $this->setModelClass(Request::class);
