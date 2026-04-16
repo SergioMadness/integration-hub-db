@@ -1,4 +1,8 @@
-<?php namespace professionalweb\IntegrationHub\IntegrationHubDB\Repositories;
+<?php
+
+declare(strict_types=1);
+
+namespace professionalweb\IntegrationHub\IntegrationHubDB\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
 use professionalweb\lms\Common\Abstractions\EntityRepository;

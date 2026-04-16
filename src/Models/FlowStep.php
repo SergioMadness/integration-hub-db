@@ -1,4 +1,8 @@
-<?php namespace professionalweb\IntegrationHub\IntegrationHubDB\Models;
+<?php
+
+declare(strict_types=1);
+
+namespace professionalweb\IntegrationHub\IntegrationHubDB\Models;
 
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\FlowStep as IFlowStep;
 
@@ -30,46 +34,6 @@ class FlowStep implements IFlowStep
     }
 
     /**
-     * Next step id
-     *
-     * @return string
-     */
-    public function getNextId(): string
-    {
-        return $this->nextId[0] ?? '';
-    }
-
-    /**
-     * Get previous step id
-     *
-     * @return string
-     */
-    public function getPrevId(): string
-    {
-        return $this->prevId[0] ?? '';
-    }
-
-    /**
-     * Get subsystem id
-     *
-     * @return string
-     */
-    public function getSubsystemId(): string
-    {
-        return $this->subsystemId;
-    }
-
-    /**
-     * Get conditions
-     *
-     * @return array
-     */
-    public function getConditions(): array
-    {
-        return $this->conditions;
-    }
-
-    /**
      * Set step id
      *
      * @param string $id
@@ -81,6 +45,16 @@ class FlowStep implements IFlowStep
         $this->id = $id;
 
         return $this;
+    }
+
+    /**
+     * Next step id
+     *
+     * @return string
+     */
+    public function getNextId(): string
+    {
+        return $this->nextId[0] ?? '';
     }
 
     /**
@@ -98,6 +72,16 @@ class FlowStep implements IFlowStep
     }
 
     /**
+     * Get previous step id
+     *
+     * @return string
+     */
+    public function getPrevId(): string
+    {
+        return $this->prevId[0] ?? '';
+    }
+
+    /**
      * Set prev step id
      *
      * @param array $prevId
@@ -112,6 +96,16 @@ class FlowStep implements IFlowStep
     }
 
     /**
+     * Get subsystem id
+     *
+     * @return string
+     */
+    public function getSubsystemId(): string
+    {
+        return $this->subsystemId;
+    }
+
+    /**
      * Set subsystem id
      *
      * @param string $subsystemId
@@ -123,6 +117,16 @@ class FlowStep implements IFlowStep
         $this->subsystemId = $subsystemId;
 
         return $this;
+    }
+
+    /**
+     * Get conditions
+     *
+     * @return array
+     */
+    public function getConditions(): array
+    {
+        return $this->conditions;
     }
 
     /**

@@ -1,4 +1,8 @@
-<?php namespace professionalweb\IntegrationHub\IntegrationHubDB\Models;
+<?php
+
+declare(strict_types=1);
+
+namespace professionalweb\IntegrationHub\IntegrationHubDB\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use professionalweb\lms\Common\Abstractions\UUIDModel;
@@ -12,8 +16,8 @@ use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Proces
  * @property string $id
  * @property string $subsystem_id
  * @property string $name
- * @property array  $mapping
- * @property array  $options
+ * @property array $mapping
+ * @property array $options
  * @property string $created_at
  * @property string $updated_at
  * @property string $deleted_at
@@ -22,10 +26,8 @@ class ProcessOptions extends UUIDModel implements IProcessOptions, Model
 {
     use SoftDeletes;
 
-    protected $table = 'process_options';
-
     public $keyType = 'string';
-
+    protected $table = 'process_options';
     protected $casts = [
         'mapping' => 'array',
         'options' => 'array',
@@ -49,16 +51,6 @@ class ProcessOptions extends UUIDModel implements IProcessOptions, Model
     }
 
     /**
-     * Get process options
-     *
-     * @return array
-     */
-    public function getOptions(): array
-    {
-        return $this->options ?? [];
-    }
-
-    /**
      * Processor is remote
      *
      * @return bool
@@ -66,6 +58,16 @@ class ProcessOptions extends UUIDModel implements IProcessOptions, Model
     public function isRemote(): bool
     {
         return $this->getOptions()['is_remote'] ?? false;
+    }
+
+    /**
+     * Get process options
+     *
+     * @return array
+     */
+    public function getOptions(): array
+    {
+        return $this->options ?? [];
     }
 
     /**

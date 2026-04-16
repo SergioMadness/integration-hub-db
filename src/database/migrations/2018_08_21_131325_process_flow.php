@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class ProcessFlow extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -13,7 +14,7 @@ class ProcessFlow extends Migration
      */
     public function up(): void
     {
-        Schema::create('flow', function (Blueprint $table) {
+        Schema::create('flow', static function (Blueprint $table): void {
             $table->uuid('id')->primary();
             $table->integer('company_id');
             $table->string('name');
@@ -30,7 +31,7 @@ class ProcessFlow extends Migration
                 ->onDelete('cascade');
         });
 
-        Schema::create('process_options', function (Blueprint $table) {
+        Schema::create('process_options', static function (Blueprint $table): void {
             $table->uuid('id')->primary();
             $table->integer('company_id');
             $table->string('subsystem_id');
@@ -57,4 +58,4 @@ class ProcessFlow extends Migration
         Schema::drop('flow');
         Schema::drop('process_options');
     }
-}
+};

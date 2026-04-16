@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Integrations extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -13,7 +14,7 @@ class Integrations extends Migration
      */
     public function up(): void
     {
-        Schema::create('requests', function (Blueprint $table) {
+        Schema::create('requests', static function (Blueprint $table): void {
             $table->uuid('id')->primary();
             $table->uuid('application_id')->nullable();
             $table->integer('company_id');
@@ -46,4 +47,4 @@ class Integrations extends Migration
     {
         Schema::drop('requests');
     }
-}
+};
