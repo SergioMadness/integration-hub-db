@@ -9,14 +9,12 @@ use Illuminate\Database\Migrations\Migration;
 return new class extends Migration {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up(): void
     {
         Schema::create('flow', static function (Blueprint $table): void {
             $table->uuid('id')->primary();
-            $table->integer('company_id');
+            $table->uuid('owner_id');
             $table->string('name');
             $table->jsonb('data');
             $table->boolean('is_default')->default(false);
@@ -24,16 +22,12 @@ return new class extends Migration {
             $table->timestamps();
             $table->softDeletes();
 
-            $table->index(['is_active', 'is_default']);
-            $table->foreign('company_id')
-                ->on('company')
-                ->references('id')
-                ->onDelete('cascade');
+            $table->index(['owner_id', 'is_active', 'is_default']);
         });
 
         Schema::create('process_options', static function (Blueprint $table): void {
             $table->uuid('id')->primary();
-            $table->integer('company_id');
+            $table->uuid('owner_id');
             $table->string('subsystem_id');
             $table->string('name');
             $table->jsonb('mapping');
@@ -41,17 +35,12 @@ return new class extends Migration {
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('company_id')
-                ->on('company')
-                ->references('id')
-                ->onDelete('cascade');
+            $table->index(['owner_id', 'subsystem_id']);
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down(): void
     {

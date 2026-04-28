@@ -11,7 +11,6 @@ use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Repositories\
 
 /**
  * Repository to work with event flows
- * @package professionalweb\IntegrationHub\IntegrationHubDB\Repositories
  *
  * @method save(Flow $model): bool
  * @method create(array $attributes = []): Flow

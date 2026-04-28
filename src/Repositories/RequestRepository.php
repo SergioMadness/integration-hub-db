@@ -11,7 +11,6 @@ use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Repositories\
 
 /**
  * Repository of requests
- * @package professionalweb\IntegrationHub\Supervisor\Repositories
  *
  * @method save(Request $model): bool
  * @method model($id): ?Request
@@ -29,8 +28,6 @@ class RequestRepository extends EntityRepository implements IRequestRepository
 
     /**
      * Create model; Set default type
-     *
-     * @param array $attributes
      *
      * @return Request
      */

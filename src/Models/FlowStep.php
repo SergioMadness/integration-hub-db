@@ -8,25 +8,17 @@ use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\FlowSt
 
 /**
  * Flow step
- * @package professionalweb\IntegrationHub\IntegrationHubDB\Models
  */
 class FlowStep implements IFlowStep
 {
-    /** @var string */
     private string $id = '';
-    /** @var array */
     private array $nextId = [];
-    /** @var array */
     private array $prevId = [];
-    /** @var string */
     private string $subsystemId = '';
-    /** @var array */
     private array $conditions = [];
 
     /**
      * Step id
-     *
-     * @return string
      */
     public function getId(): string
     {
@@ -35,10 +27,6 @@ class FlowStep implements IFlowStep
 
     /**
      * Set step id
-     *
-     * @param string $id
-     *
-     * @return FlowStep
      */
     public function setId(string $id): FlowStep
     {
@@ -49,8 +37,6 @@ class FlowStep implements IFlowStep
 
     /**
      * Next step id
-     *
-     * @return string
      */
     public function getNextId(): string
     {
@@ -59,8 +45,6 @@ class FlowStep implements IFlowStep
 
     /**
      * Set next step id
-     *
-     * @param array $nextId
      *
      * @return FlowStep
      */
@@ -73,8 +57,6 @@ class FlowStep implements IFlowStep
 
     /**
      * Get previous step id
-     *
-     * @return string
      */
     public function getPrevId(): string
     {
@@ -83,8 +65,6 @@ class FlowStep implements IFlowStep
 
     /**
      * Set prev step id
-     *
-     * @param array $prevId
      *
      * @return FlowStep
      */
@@ -97,8 +77,6 @@ class FlowStep implements IFlowStep
 
     /**
      * Get subsystem id
-     *
-     * @return string
      */
     public function getSubsystemId(): string
     {
@@ -107,10 +85,6 @@ class FlowStep implements IFlowStep
 
     /**
      * Set subsystem id
-     *
-     * @param string $subsystemId
-     *
-     * @return FlowStep
      */
     public function setSubsystemId(string $subsystemId): FlowStep
     {
@@ -121,8 +95,6 @@ class FlowStep implements IFlowStep
 
     /**
      * Get conditions
-     *
-     * @return array
      */
     public function getConditions(): array
     {
@@ -131,10 +103,6 @@ class FlowStep implements IFlowStep
 
     /**
      * Set conditions
-     *
-     * @param array $conditions
-     *
-     * @return FlowStep
      */
     public function setConditions(array $conditions): FlowStep
     {

@@ -11,7 +11,6 @@ use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Proces
 
 /**
  * Process options
- * @package App\Models
  *
  * @property string $id
  * @property string $subsystem_id
@@ -42,8 +41,6 @@ class ProcessOptions extends UUIDModel implements IProcessOptions, Model
 
     /**
      * Get data mapping
-     *
-     * @return array
      */
     public function getMapping(): array
     {
@@ -52,8 +49,6 @@ class ProcessOptions extends UUIDModel implements IProcessOptions, Model
 
     /**
      * Processor is remote
-     *
-     * @return bool
      */
     public function isRemote(): bool
     {
@@ -62,8 +57,6 @@ class ProcessOptions extends UUIDModel implements IProcessOptions, Model
 
     /**
      * Get process options
-     *
-     * @return array
      */
     public function getOptions(): array
     {
@@ -72,8 +65,6 @@ class ProcessOptions extends UUIDModel implements IProcessOptions, Model
 
     /**
      * Get queue name to send event to processor through queue
-     *
-     * @return string
      */
     public function getQueue(): string
     {
@@ -82,8 +73,6 @@ class ProcessOptions extends UUIDModel implements IProcessOptions, Model
 
     /**
      * Get host to send event to processor through REST API
-     *
-     * @return string
      */
     public function getHost(): string
     {
@@ -92,8 +81,6 @@ class ProcessOptions extends UUIDModel implements IProcessOptions, Model
 
     /**
      * Get class name to identify processor
-     *
-     * @return string
      */
     public function getSubsystemId(): string
     {
@@ -102,8 +89,6 @@ class ProcessOptions extends UUIDModel implements IProcessOptions, Model
 
     /**
      * Get process id
-     *
-     * @return string
      */
     public function getId(): string
     {
@@ -112,8 +97,6 @@ class ProcessOptions extends UUIDModel implements IProcessOptions, Model
 
     /**
      * Need to stop on fail
-     *
-     * @return bool
      */
     public function stopOnFail(): bool
     {

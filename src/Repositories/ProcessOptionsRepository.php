@@ -10,7 +10,6 @@ use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Repositories\
 
 /**
  * Process options repository
- * @package professionalweb\IntegrationHub\IntegrationHubDB\Repositories
  *
  * @method save(ProcessOptions $model): bool
  * @method create(array $attributes = []): ProcessOptions

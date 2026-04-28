@@ -70,8 +70,6 @@ class Request extends UUIDModel implements IModel, EventData
 
     /**
      * Application relation
-     *
-     * @return BelongsTo
      */
     public function application(): BelongsTo
     {
@@ -90,8 +88,6 @@ class Request extends UUIDModel implements IModel, EventData
 
     /**
      * Get attempts quantity
-     *
-     * @return int
      */
     public function getAttemptQty(): int
     {
@@ -110,9 +106,6 @@ class Request extends UUIDModel implements IModel, EventData
 
     /**
      * Set next step id
-     *
-     * @param string $flowId
-     * @param string $stepId
      *
      * @return $this
      */
@@ -134,8 +127,6 @@ class Request extends UUIDModel implements IModel, EventData
 
     /**
      * Get current step
-     *
-     * @return string
      */
     public function getCurrentFlow(): string
     {
@@ -144,8 +135,6 @@ class Request extends UUIDModel implements IModel, EventData
 
     /**
      * Get current flow id
-     *
-     * @return string
      */
     public function getCurrentStep(): string
     {
@@ -154,8 +143,6 @@ class Request extends UUIDModel implements IModel, EventData
 
     /**
      * Get next step
-     *
-     * @return string
      */
     public function getNextStep(): string
     {
@@ -179,11 +166,6 @@ class Request extends UUIDModel implements IModel, EventData
 
     /**
      * Set current step id in flow
-     *
-     * @param string $flowId
-     * @param string $stepId
-     *
-     * @return EventData
      */
     public function setCurrentStep(string $flowId, string $stepId): EventData
     {
@@ -195,11 +177,7 @@ class Request extends UUIDModel implements IModel, EventData
     /**
      * Set process response
      *
-     * @param string $processId
-     * @param bool $succeed
      * @param mixed $processResponse
-     *
-     * @return EventData
      */
     public function setProcessResponse(string $processId, $processResponse, bool $succeed = true): EventData
     {
@@ -246,7 +224,6 @@ class Request extends UUIDModel implements IModel, EventData
     /**
      * Get value by key
      *
-     * @param string $key
      * @param mixed $default
      *
      * @return mixed
@@ -268,10 +245,6 @@ class Request extends UUIDModel implements IModel, EventData
 
     /**
      * Set request status
-     *
-     * @param string $status
-     *
-     * @return EventData
      */
     public function setStatus(string $status): EventData
     {
@@ -282,8 +255,6 @@ class Request extends UUIDModel implements IModel, EventData
 
     /**
      * Get request statu
-     *
-     * @return string
      */
     public function getStatus(): string
     {

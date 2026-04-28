@@ -23,10 +23,10 @@ class IntegrationHubDBProvider extends ServiceProvider
     {
         $this->app->singleton(IRequestRepository::class, RequestRepository::class);
         $this->app->singleton(IFlowRepository::class, static function () {
-            return new FlowRepository(collect(config('flow-collection')));
+            return new FlowRepository();
         });
         $this->app->singleton(IProcessOptionsRepository::class, static function () {
-            return new ProcessOptionsRepository(collect(config('process-options-collection')));
+            return new ProcessOptionsRepository();
         });
     }
 }
