@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace professionalweb\IntegrationHub\IntegrationHubDB\Repositories;
 
-use professionalweb\lms\Common\Abstractions\EntityRepository;
 use professionalweb\IntegrationHub\IntegrationHubDB\Models\ProcessOptions;
+use professionalweb\IntegrationHub\IntegrationHubDB\Abstractions\EntityRepository;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Repositories\ProcessOptionsRepository as IProcessOptionsRepository;
 
 /**

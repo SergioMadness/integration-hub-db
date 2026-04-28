@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace professionalweb\IntegrationHub\IntegrationHubDB\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
-use professionalweb\lms\Common\Abstractions\EntityRepository;
 use professionalweb\IntegrationHub\IntegrationHubDB\Models\Request;
+use professionalweb\IntegrationHub\IntegrationHubDB\Abstractions\EntityRepository;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Repositories\RequestRepository as IRequestRepository;
 
 /**

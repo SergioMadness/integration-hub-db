@@ -5,15 +5,14 @@ declare(strict_types=1);
 namespace professionalweb\IntegrationHub\IntegrationHubDB\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use professionalweb\lms\Common\Abstractions\UUIDModel;
-use professionalweb\lms\Common\Interfaces\Models\Model as IModel;
 use professionalweb\IntegrationHub\IntegrationHub\Models\Application;
+use professionalweb\IntegrationHub\IntegrationHubDB\Abstractions\UUIDModel;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\EventData;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Traits\HasArrayField;
+use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Model;
 
 /**
  * Request
- * @package App\Models
  *
  * @property string $id
  * @property string $application_id
@@ -27,7 +26,7 @@ use professionalweb\IntegrationHub\IntegrationHubCommon\Traits\HasArrayField;
  *
  * @property Application $application
  */
-class Request extends UUIDModel implements IModel, EventData
+class Request extends UUIDModel implements Model, EventData
 {
     use HasArrayField;
 

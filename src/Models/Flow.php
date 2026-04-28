@@ -6,8 +6,8 @@ namespace professionalweb\IntegrationHub\IntegrationHubDB\Models;
 
 use Exception;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use professionalweb\lms\Common\Abstractions\UUIDModel;
-use professionalweb\lms\Common\Interfaces\Models\Model;
+use professionalweb\IntegrationHub\IntegrationHubDB\Abstractions\UUIDModel;
+use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Model;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\FlowStep;
 use professionalweb\IntegrationHub\IntegrationHubDB\Models\FlowStep as FlowStepModel;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Flow as IFlow;
@@ -15,7 +15,6 @@ use function count;
 
 /**
  * Process flow model
- * @package App\Models
  *
  * @property string $id
  * @property string $name

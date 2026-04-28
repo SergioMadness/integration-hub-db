@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace professionalweb\IntegrationHub\IntegrationHubDB\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
-use professionalweb\lms\Common\Abstractions\UUIDModel;
-use professionalweb\lms\Common\Interfaces\Models\Model;
+use professionalweb\IntegrationHub\IntegrationHubDB\Abstractions\UUIDModel;
+use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Model;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\ProcessOptions as IProcessOptions;
 
 /**
