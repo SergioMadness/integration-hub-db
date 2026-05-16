@@ -1,4 +1,8 @@
-<?php namespace professionalweb\IntegrationHub\IntegrationHubDB\Providers;
+<?php
+
+declare(strict_types=1);
+
+namespace professionalweb\IntegrationHub\IntegrationHubDB\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use professionalweb\IntegrationHub\IntegrationHubDB\Repositories\FlowRepository;
@@ -18,11 +22,11 @@ class IntegrationHubDBProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton(IRequestRepository::class, RequestRepository::class);
-        $this->app->singleton(IFlowRepository::class, function () {
-            return new FlowRepository(collect(config('flow-collection')));
+        $this->app->singleton(IFlowRepository::class, static function () {
+            return new FlowRepository();
         });
-        $this->app->singleton(IProcessOptionsRepository::class, function () {
-            return new ProcessOptionsRepository(collect(config('process-options-collection')));
+        $this->app->singleton(IProcessOptionsRepository::class, static function () {
+            return new ProcessOptionsRepository();
         });
     }
 }

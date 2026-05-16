@@ -1,29 +1,32 @@
-<?php namespace professionalweb\IntegrationHub\IntegrationHubDB\Models;
+<?php
+
+declare(strict_types=1);
+
+namespace professionalweb\IntegrationHub\IntegrationHubDB\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use professionalweb\lms\Common\Abstractions\UUIDModel;
-use professionalweb\lms\Common\Interfaces\Models\Model as IModel;
 use professionalweb\IntegrationHub\IntegrationHub\Models\Application;
+use professionalweb\IntegrationHub\IntegrationHubDB\Abstractions\UUIDModel;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\EventData;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Traits\HasArrayField;
+use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Model;
 
 /**
  * Request
- * @package App\Models
  *
- * @property string      $id
- * @property string      $application_id
- * @property array       $body
- * @property array       $processing_info
- * @property string      $status
- * @property string      $response
- * @property string      $request_type
- * @property string      $created_at
- * @property string      $updated_at
+ * @property string $id
+ * @property string $application_id
+ * @property array $body
+ * @property array $processing_info
+ * @property string $status
+ * @property string $response
+ * @property string $request_type
+ * @property string $created_at
+ * @property string $updated_at
  *
  * @property Application $application
  */
-class Request extends UUIDModel implements IModel, EventData
+class Request extends UUIDModel implements Model, EventData
 {
     use HasArrayField;
 
@@ -38,9 +41,9 @@ class Request extends UUIDModel implements IModel, EventData
     ];
 
     protected $casts = [
-        'body'            => 'array',
+        'body' => 'array',
         'processing_info' => 'array',
-        'response'        => 'array',
+        'response' => 'array',
     ];
 
     protected $visible = [
@@ -66,8 +69,6 @@ class Request extends UUIDModel implements IModel, EventData
 
     /**
      * Application relation
-     *
-     * @return BelongsTo
      */
     public function application(): BelongsTo
     {
@@ -86,8 +87,6 @@ class Request extends UUIDModel implements IModel, EventData
 
     /**
      * Get attempts quantity
-     *
-     * @return int
      */
     public function getAttemptQty(): int
     {
@@ -104,6 +103,18 @@ class Request extends UUIDModel implements IModel, EventData
         return $this->setNextStep('', '');
     }
 
+    /**
+     * Set next step id
+     *
+     * @return $this
+     */
+    public function setNextStep(string $flowId, string $stepId): EventData
+    {
+        return $this
+            ->setArrayItem('processing_info', 'next_flow', $flowId)
+            ->setArrayItem('processing_info', 'next_step', $stepId);
+    }
+
     public function toArray(): array
     {
         $result = parent::toArray();
@@ -115,8 +126,6 @@ class Request extends UUIDModel implements IModel, EventData
 
     /**
      * Get current step
-     *
-     * @return string
      */
     public function getCurrentFlow(): string
     {
@@ -125,8 +134,6 @@ class Request extends UUIDModel implements IModel, EventData
 
     /**
      * Get current flow id
-     *
-     * @return string
      */
     public function getCurrentStep(): string
     {
@@ -134,39 +141,7 @@ class Request extends UUIDModel implements IModel, EventData
     }
 
     /**
-     * Set current step id in flow
-     *
-     * @param string $flowId
-     * @param string $stepId
-     *
-     * @return EventData
-     */
-    public function setCurrentStep(string $flowId, string $stepId): EventData
-    {
-        return $this
-            ->setArrayItem('processing_info', 'current_flow', $flowId)
-            ->setArrayItem('processing_info', 'current_step', $stepId);
-    }
-
-    /**
-     * Set next step id
-     *
-     * @param string $flowId
-     * @param string $stepId
-     *
-     * @return $this
-     */
-    public function setNextStep(string $flowId, string $stepId): EventData
-    {
-        return $this
-            ->setArrayItem('processing_info', 'next_flow', $flowId)
-            ->setArrayItem('processing_info', 'next_step', $stepId);
-    }
-
-    /**
      * Get next step
-     *
-     * @return string
      */
     public function getNextStep(): string
     {
@@ -189,13 +164,19 @@ class Request extends UUIDModel implements IModel, EventData
     }
 
     /**
+     * Set current step id in flow
+     */
+    public function setCurrentStep(string $flowId, string $stepId): EventData
+    {
+        return $this
+            ->setArrayItem('processing_info', 'current_flow', $flowId)
+            ->setArrayItem('processing_info', 'current_step', $stepId);
+    }
+
+    /**
      * Set process response
      *
-     * @param string $processId
-     * @param bool   $succeed
-     * @param mixed  $processResponse
-     *
-     * @return EventData
+     * @param mixed $processResponse
      */
     public function setProcessResponse(string $processId, $processResponse, bool $succeed = true): EventData
     {
@@ -206,23 +187,13 @@ class Request extends UUIDModel implements IModel, EventData
         }
         $processingInfo['process_response'][$processId] = [
             'processId' => $processId,
-            'isError'   => !$succeed,
-            'response'  => $processResponse,
+            'isError' => !$succeed,
+            'response' => $processResponse,
         ];
 
         $this->processing_info = $processingInfo;
 
         return $this;
-    }
-
-    /**
-     * Get data
-     *
-     * @return mixed
-     */
-    public function getData()
-    {
-        return $this->body;
     }
 
     /**
@@ -249,12 +220,10 @@ class Request extends UUIDModel implements IModel, EventData
         return $this->id;
     }
 
-
     /**
      * Get value by key
      *
-     * @param string $key
-     * @param mixed  $default
+     * @param mixed $default
      *
      * @return mixed
      */
@@ -264,11 +233,17 @@ class Request extends UUIDModel implements IModel, EventData
     }
 
     /**
+     * Get data
+     *
+     * @return mixed
+     */
+    public function getData()
+    {
+        return $this->body;
+    }
+
+    /**
      * Set request status
-     *
-     * @param string $status
-     *
-     * @return EventData
      */
     public function setStatus(string $status): EventData
     {
@@ -279,8 +254,6 @@ class Request extends UUIDModel implements IModel, EventData
 
     /**
      * Get request statu
-     *
-     * @return string
      */
     public function getStatus(): string
     {

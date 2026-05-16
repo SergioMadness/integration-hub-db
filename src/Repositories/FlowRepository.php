@@ -1,13 +1,16 @@
-<?php namespace professionalweb\IntegrationHub\IntegrationHubDB\Repositories;
+<?php
 
-use professionalweb\lms\Common\Abstractions\EntityRepository;
+declare(strict_types=1);
+
+namespace professionalweb\IntegrationHub\IntegrationHubDB\Repositories;
+
 use professionalweb\IntegrationHub\IntegrationHubDB\Models\Flow as FlowModel;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Flow;
+use professionalweb\IntegrationHub\IntegrationHubDB\Abstractions\EntityRepository;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Repositories\FlowRepository as IFlowRepository;
 
 /**
  * Repository to work with event flows
- * @package professionalweb\IntegrationHub\IntegrationHubDB\Repositories
  *
  * @method save(Flow $model): bool
  * @method create(array $attributes = []): Flow

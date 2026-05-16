@@ -1,19 +1,22 @@
-<?php namespace professionalweb\IntegrationHub\IntegrationHubDB\Models;
+<?php
+
+declare(strict_types=1);
+
+namespace professionalweb\IntegrationHub\IntegrationHubDB\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
-use professionalweb\lms\Common\Abstractions\UUIDModel;
-use professionalweb\lms\Common\Interfaces\Models\Model;
+use professionalweb\IntegrationHub\IntegrationHubDB\Abstractions\UUIDModel;
+use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Model;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\ProcessOptions as IProcessOptions;
 
 /**
  * Process options
- * @package App\Models
  *
  * @property string $id
  * @property string $subsystem_id
  * @property string $name
- * @property array  $mapping
- * @property array  $options
+ * @property array $mapping
+ * @property array $options
  * @property string $created_at
  * @property string $updated_at
  * @property string $deleted_at
@@ -22,10 +25,8 @@ class ProcessOptions extends UUIDModel implements IProcessOptions, Model
 {
     use SoftDeletes;
 
-    protected $table = 'process_options';
-
     public $keyType = 'string';
-
+    protected $table = 'process_options';
     protected $casts = [
         'mapping' => 'array',
         'options' => 'array',
@@ -40,8 +41,6 @@ class ProcessOptions extends UUIDModel implements IProcessOptions, Model
 
     /**
      * Get data mapping
-     *
-     * @return array
      */
     public function getMapping(): array
     {
@@ -49,19 +48,7 @@ class ProcessOptions extends UUIDModel implements IProcessOptions, Model
     }
 
     /**
-     * Get process options
-     *
-     * @return array
-     */
-    public function getOptions(): array
-    {
-        return $this->options ?? [];
-    }
-
-    /**
      * Processor is remote
-     *
-     * @return bool
      */
     public function isRemote(): bool
     {
@@ -69,9 +56,15 @@ class ProcessOptions extends UUIDModel implements IProcessOptions, Model
     }
 
     /**
+     * Get process options
+     */
+    public function getOptions(): array
+    {
+        return $this->options ?? [];
+    }
+
+    /**
      * Get queue name to send event to processor through queue
-     *
-     * @return string
      */
     public function getQueue(): string
     {
@@ -80,8 +73,6 @@ class ProcessOptions extends UUIDModel implements IProcessOptions, Model
 
     /**
      * Get host to send event to processor through REST API
-     *
-     * @return string
      */
     public function getHost(): string
     {
@@ -90,8 +81,6 @@ class ProcessOptions extends UUIDModel implements IProcessOptions, Model
 
     /**
      * Get class name to identify processor
-     *
-     * @return string
      */
     public function getSubsystemId(): string
     {
@@ -100,8 +89,6 @@ class ProcessOptions extends UUIDModel implements IProcessOptions, Model
 
     /**
      * Get process id
-     *
-     * @return string
      */
     public function getId(): string
     {
@@ -110,8 +97,6 @@ class ProcessOptions extends UUIDModel implements IProcessOptions, Model
 
     /**
      * Need to stop on fail
-     *
-     * @return bool
      */
     public function stopOnFail(): bool
     {

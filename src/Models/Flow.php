@@ -1,24 +1,29 @@
-<?php namespace professionalweb\IntegrationHub\IntegrationHubDB\Models;
+<?php
 
+declare(strict_types=1);
+
+namespace professionalweb\IntegrationHub\IntegrationHubDB\Models;
+
+use Exception;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use professionalweb\lms\Common\Abstractions\UUIDModel;
-use professionalweb\lms\Common\Interfaces\Models\Model;
+use professionalweb\IntegrationHub\IntegrationHubDB\Abstractions\UUIDModel;
+use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Model;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\FlowStep;
 use professionalweb\IntegrationHub\IntegrationHubDB\Models\FlowStep as FlowStepModel;
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\Flow as IFlow;
+use function count;
 
 /**
  * Process flow model
- * @package App\Models
  *
- * @property string  $id
- * @property string  $name
- * @property array   $data
+ * @property string $id
+ * @property string $name
+ * @property array $data
  * @property boolean $is_default
  * @property boolean $is_active
- * @property string  $created_at
- * @property string  $updated_at
- * @property string  $deleted_at
+ * @property string $created_at
+ * @property string $updated_at
+ * @property string $deleted_at
  */
 class Flow extends UUIDModel implements IFlow, Model
 {
@@ -40,10 +45,8 @@ class Flow extends UUIDModel implements IFlow, Model
     /**
      * Get next node
      *
-     * @param string $id
-     *
      * @return FlowStep
-     * @throws \Exception
+     * @throws Exception
      */
     public function getNext(string $id): ?FlowStep
     {
@@ -57,67 +60,21 @@ class Flow extends UUIDModel implements IFlow, Model
     }
 
     /**
-     * Get previous step
+     * Get first node
      *
-     * @param string $id
-     *
-     * @return FlowStep
-     * @throws \Exception
+     * @return null|FlowStep
+     * @throws Exception
      */
-    public function getPrev(string $id): ?FlowStep
+    public function head(): ?FlowStep
     {
-        $prevId = $this->getNode($id)->getPrevId();
-
-        return empty($prevId) ? null : $this->getNode($prevId);
-    }
-
-    /**
-     * Check next step has condition
-     *
-     * @param string $id
-     *
-     * @return bool
-     * @throws \Exception
-     */
-    public function isConditional(string $id): bool
-    {
-        return !empty($this->getNode($id)->getConditions());
-    }
-
-    /**
-     * Get condition for flow step
-     *
-     * @param string $id
-     *
-     * @return array
-     * @throws \Exception
-     */
-    public function getCondition(string $id): array
-    {
-        return $this->getNode($id)->getConditions();
-    }
-
-    /**
-     * Add node
-     *
-     * @param FlowStep $step
-     *
-     * @return IFlow
-     */
-    public function addNode(FlowStep $step): IFlow
-    {
-        $this->data[$step->getId()] = $step;
-
-        return $this;
+        return $this->getNode(array_keys($this->data)[0] ?? '');
     }
 
     /**
      * Get node by id
      *
-     * @param string $id
-     *
      * @return FlowStep
-     * @throws \Exception
+     * @throws Exception
      */
     public function getNode(string $id): ?FlowStep
     {
@@ -140,11 +97,63 @@ class Flow extends UUIDModel implements IFlow, Model
     }
 
     /**
+     * Translate array to flow step model
+     */
+    protected function makeFlowStep(array $itemData): FlowStep
+    {
+        return (new FlowStepModel())
+            ->setId($itemData['id'])
+            ->setNextId((array)$itemData['next'])
+            ->setPrevId((array)$itemData['prev'])
+            ->setConditions($itemData['condition'] ?? [])
+            ->setSubsystemId($itemData['subsystem'] ?? $itemData['id']);
+    }
+
+    /**
+     * Get previous step
+     *
+     * @return FlowStep
+     * @throws Exception
+     */
+    public function getPrev(string $id): ?FlowStep
+    {
+        $prevId = $this->getNode($id)->getPrevId();
+
+        return empty($prevId) ? null : $this->getNode($prevId);
+    }
+
+    /**
+     * Check next step has condition
+     *
+     * @throws Exception
+     */
+    public function isConditional(string $id): bool
+    {
+        return !empty($this->getNode($id)->getConditions());
+    }
+
+    /**
+     * Get condition for flow step
+     *
+     * @throws Exception
+     */
+    public function getCondition(string $id): array
+    {
+        return $this->getNode($id)->getConditions();
+    }
+
+    /**
+     * Add node
+     */
+    public function addNode(FlowStep $step): IFlow
+    {
+        $this->data[$step->getId()] = $step;
+
+        return $this;
+    }
+
+    /**
      * Remove node
-     *
-     * @param string $id
-     *
-     * @return IFlow
      */
     public function removeNode(string $id): IFlow
     {
@@ -157,7 +166,7 @@ class Flow extends UUIDModel implements IFlow, Model
             if (!empty($next = $node->getNextId())) {
                 $this->getNode($prev)->setPrevId([$node->getPrevId()]);
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
         }
 
         unset($this->data[$id]);
@@ -166,41 +175,13 @@ class Flow extends UUIDModel implements IFlow, Model
     }
 
     /**
-     * Get first node
-     *
-     * @return null|FlowStep
-     * @throws \Exception
-     */
-    public function head(): ?FlowStep
-    {
-        return $this->getNode(array_keys($this->data)[0] ?? '');
-    }
-
-    /**
      * Get last node
      *
      * @return null|FlowStep
-     * @throws \Exception
+     * @throws Exception
      */
     public function tail(): ?FlowStep
     {
-        return $this->getNode(array_keys($this->data)[\count($this->data) - 1] ?? '');
-    }
-
-    /**
-     * Translate array to flow step model
-     *
-     * @param array $itemData
-     *
-     * @return FlowStep
-     */
-    protected function makeFlowStep(array $itemData): FlowStep
-    {
-        return (new FlowStepModel())
-            ->setId($itemData['id'])
-            ->setNextId((array)$itemData['next'])
-            ->setPrevId((array)$itemData['prev'])
-            ->setConditions($itemData['condition'] ?? [])
-            ->setSubsystemId($itemData['subsystem'] ?? $itemData['id']);
+        return $this->getNode(array_keys($this->data)[count($this->data) - 1] ?? '');
     }
 }

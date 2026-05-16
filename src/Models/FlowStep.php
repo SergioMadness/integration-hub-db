@@ -1,28 +1,24 @@
-<?php namespace professionalweb\IntegrationHub\IntegrationHubDB\Models;
+<?php
+
+declare(strict_types=1);
+
+namespace professionalweb\IntegrationHub\IntegrationHubDB\Models;
 
 use professionalweb\IntegrationHub\IntegrationHubCommon\Interfaces\Models\FlowStep as IFlowStep;
 
 /**
  * Flow step
- * @package professionalweb\IntegrationHub\IntegrationHubDB\Models
  */
 class FlowStep implements IFlowStep
 {
-    /** @var string */
     private string $id = '';
-    /** @var array */
     private array $nextId = [];
-    /** @var array */
     private array $prevId = [];
-    /** @var string */
     private string $subsystemId = '';
-    /** @var array */
     private array $conditions = [];
 
     /**
      * Step id
-     *
-     * @return string
      */
     public function getId(): string
     {
@@ -30,51 +26,7 @@ class FlowStep implements IFlowStep
     }
 
     /**
-     * Next step id
-     *
-     * @return string
-     */
-    public function getNextId(): string
-    {
-        return $this->nextId[0] ?? '';
-    }
-
-    /**
-     * Get previous step id
-     *
-     * @return string
-     */
-    public function getPrevId(): string
-    {
-        return $this->prevId[0] ?? '';
-    }
-
-    /**
-     * Get subsystem id
-     *
-     * @return string
-     */
-    public function getSubsystemId(): string
-    {
-        return $this->subsystemId;
-    }
-
-    /**
-     * Get conditions
-     *
-     * @return array
-     */
-    public function getConditions(): array
-    {
-        return $this->conditions;
-    }
-
-    /**
      * Set step id
-     *
-     * @param string $id
-     *
-     * @return FlowStep
      */
     public function setId(string $id): FlowStep
     {
@@ -84,9 +36,15 @@ class FlowStep implements IFlowStep
     }
 
     /**
+     * Next step id
+     */
+    public function getNextId(): string
+    {
+        return $this->nextId[0] ?? '';
+    }
+
+    /**
      * Set next step id
-     *
-     * @param array $nextId
      *
      * @return FlowStep
      */
@@ -98,9 +56,15 @@ class FlowStep implements IFlowStep
     }
 
     /**
+     * Get previous step id
+     */
+    public function getPrevId(): string
+    {
+        return $this->prevId[0] ?? '';
+    }
+
+    /**
      * Set prev step id
-     *
-     * @param array $prevId
      *
      * @return FlowStep
      */
@@ -112,11 +76,15 @@ class FlowStep implements IFlowStep
     }
 
     /**
+     * Get subsystem id
+     */
+    public function getSubsystemId(): string
+    {
+        return $this->subsystemId;
+    }
+
+    /**
      * Set subsystem id
-     *
-     * @param string $subsystemId
-     *
-     * @return FlowStep
      */
     public function setSubsystemId(string $subsystemId): FlowStep
     {
@@ -126,11 +94,15 @@ class FlowStep implements IFlowStep
     }
 
     /**
+     * Get conditions
+     */
+    public function getConditions(): array
+    {
+        return $this->conditions;
+    }
+
+    /**
      * Set conditions
-     *
-     * @param array $conditions
-     *
-     * @return FlowStep
      */
     public function setConditions(array $conditions): FlowStep
     {
