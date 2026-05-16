@@ -39,6 +39,6 @@ abstract class UUIDModel extends Model
      */
     public function generateId(): string
     {
-        return $this->{$this->getKeyName()} = Str::uuid();
+        return $this->{$this->getKeyName()} = Str::uuid()->toString();
     }
 }
