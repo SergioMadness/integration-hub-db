@@ -15,7 +15,7 @@
   "prefer-stable": true,
   "require": {
     "php": ">=8.4",
-    "laravel/framework": "^10.4",
+    "laravel/framework": "^13.0",
     "ramsey/uuid": "^4.0"
   },
   "require-dev": {
